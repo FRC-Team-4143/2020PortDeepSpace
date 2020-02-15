@@ -9,30 +9,30 @@
 
 #define ENCODER_COUNTS_PER_TURN 4096
 
-SteerTalonController::SteerTalonController(WPI_TalonSRX* motor){
-    _motor = motor;
-    ConfigPID();
+SteerTalonController::SteerTalonController(WPI_TalonSRX* motor) {
+	_motor = motor;
+	ConfigPID();
 }
 
-SteerTalonController::SteerTalonController(int canId){
-    _motor = new WPI_TalonSRX(canId);
-    ConfigPID();
+SteerTalonController::SteerTalonController(int canId) {
+	_motor = new WPI_TalonSRX(canId);
+	ConfigPID();
 }
 
-void SteerTalonController::SetPercentPower(double value){
-    _motor->Set(ControlMode::PercentOutput, value);
+void SteerTalonController::SetPercentPower(double value) {
+	_motor->Set(ControlMode::PercentOutput, value);
 }
 
-double SteerTalonController::GetEncoderPosition(){
-    return _motor->GetSelectedSensorPosition();
+double SteerTalonController::GetEncoderPosition() {
+	return _motor->GetSelectedSensorPosition();
 }
 
-void SteerTalonController::SetPosition(double value){
-    _motor->Set(ControlMode::Position, value * ENCODER_COUNTS_PER_TURN);
+void SteerTalonController::SetPosition(double value) {
+	_motor->Set(ControlMode::Position, value * ENCODER_COUNTS_PER_TURN);
 }
 
-void SteerTalonController::ConfigPID(){
-    _motor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute,0,10);
+void SteerTalonController::ConfigPID() {
+	_motor->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute,0,10);
 	_motor->SelectProfileSlot(0, 0);
 	_motor->Config_kP(0,P,10);
 	_motor->Config_kI(0,I,10);
@@ -45,4 +45,3 @@ void SteerTalonController::ConfigPID(){
 	_motor->ConfigPeakOutputForward(STEERPOW,10);
 	_motor->ConfigPeakOutputReverse(-STEERPOW,10);
 }
-

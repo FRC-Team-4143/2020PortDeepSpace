@@ -11,7 +11,7 @@
 #include <AHRS.h>
 #include <frc/I2C.h>
 
-#include "controllers/PositionMultiController.h"
+#include "controllers/IPositionMultiController.h"
 
 #include "OI.h"
 #include "subsystems/Elevator.h"
@@ -41,26 +41,26 @@ class Robot : public frc::TimedRobot {
 
 //======= Drive Train =======//
 
-  static MultiController* driveTrainFrontLeftDrive;
-  static PositionMultiController* driveTrainFrontLeftSteer;
+  static IMultiController* driveTrainFrontLeftDrive;
+  static IPositionMultiController* driveTrainFrontLeftSteer;
 
-  static MultiController* driveTrainFrontRightDrive;
-  static PositionMultiController* driveTrainFrontRightSteer;
+  static IMultiController* driveTrainFrontRightDrive;
+  static IPositionMultiController* driveTrainFrontRightSteer;
 
-  static MultiController* driveTrainRearLeftDrive;
-  static PositionMultiController* driveTrainRearLeftSteer;
+  static IMultiController* driveTrainRearLeftDrive;
+  static IPositionMultiController* driveTrainRearLeftSteer;
 
-  static MultiController* driveTrainRearRightDrive;
-  static PositionMultiController* driveTrainRearRightSteer;
+  static IMultiController* driveTrainRearRightDrive;
+  static IPositionMultiController* driveTrainRearRightSteer;
 
 //======= Susystem Motors and Sensors =======//
-  static PositionMultiController* armMotor;
-  static MultiController* clampMotor;
-  static MultiController* frontClimberMotor;
-  static MultiController* rearClimberMotor;
-  static PositionMultiController* elevatorMotor;
-  static MultiController* rollerMotor;
-  static MultiController* testElevator;
+  static IPositionMultiController* armMotor;
+  static IMultiController* clampMotor;
+  static IMultiController* frontClimberMotor;
+  static IMultiController* rearClimberMotor;
+  static IPositionMultiController* elevatorMotor;
+  static IMultiController* rollerMotor;
+  static IMultiController* testElevator;
 
   static Servo* frontServo;
   static Servo* rearServo;

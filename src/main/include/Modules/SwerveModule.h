@@ -1,30 +1,33 @@
 #pragma once
-#include "controllers/PositionMultiController.h"
+#include "controllers/IPositionMultiController.h"
 #include <string>
 
 class SwerveModule {
 public:
 
-	SwerveModule(MultiController* driveMotor, PositionMultiController* steerMotor, std::string configName); 
-	double GetSteerPosition();
+	SwerveModule(IMultiController* driveMotor, IPositionMultiController* steerMotor, std::string configName); 
+
 	void SetGeometry(double x, double y, double maxradius);
 	void SetWheelOffset();
-	void SetOffset(float off);
 	void LoadWheelOffset();
 	void SetDriveSpeed(float speed);
+	double GetSteerPosition();
 	double SetSteerDrive(double x, double y, double twist, bool operatorControl);
-	void SetSteerSetpoint(float setpoint);
 
 private:
 
-	double _offset;
+	IMultiController* _drive; // speed controller for the drive motor
+	IPositionMultiController* _steer; // speed controller for the steer motor
+	std::string _configName;
+
 	double _x;
 	double _y;
 	double _radius;
-	std::string _configName;
+	double _offset;
 	double _steerPosition;
 	double _lastPow;
 	int _inverse = 1;
-	MultiController* _drive; // speed controller for the drive motor
-	PositionMultiController* _steer; // speed controller for the steer motor
+
+	void SetOffset(float offset);
+	void SetSteerSetpoint(float setpoint);
 };

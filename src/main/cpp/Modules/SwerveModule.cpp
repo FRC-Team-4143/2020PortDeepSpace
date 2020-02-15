@@ -1,10 +1,12 @@
 #include "modules/SwerveModule.h"
-#include "subsystems/EncoderConstants.h"
 #include "modules/Constants.h"
+#include "subsystems/EncoderConstants.h"
 #include <frc/Preferences.h>
 #include <iostream>
 
-SwerveModule::SwerveModule(MultiController* drive, PositionMultiController* steer, std::string configName) {
+// ================================================================
+
+SwerveModule::SwerveModule(IMultiController* drive, IPositionMultiController* steer, std::string configName) {
 	_drive = drive;
 	_steer = steer;
 	_configName = configName;
@@ -21,26 +23,11 @@ void SwerveModule::SetGeometry(double x, double y, double maxradius) {
 
 // ================================================================
 
-double SwerveModule::GetSteerPosition() {
-	float currentPosition = _steer->GetEncoderPosition() / EncoderConstants::COUNTS_PER_TURN;
-	int turns = trunc(currentPosition);
-	float currentAngle = currentPosition - turns;
-	return currentAngle *EncoderConstants::FULL_TURN;
-}
-
-// ================================================================
-
 void SwerveModule::SetWheelOffset() {
 	_steerPosition = GetSteerPosition();
 	auto prefs = frc::Preferences::GetInstance();
 	prefs->PutDouble(_configName, _steerPosition);
 	SetOffset(_steerPosition);
-}
-
-// ================================================================
-
-void SwerveModule::SetOffset(float off) {
-	_offset = off;
 }
 
 // ================================================================
@@ -56,6 +43,15 @@ void SwerveModule::LoadWheelOffset() {
 void SwerveModule::SetDriveSpeed(float speed) {
 	_lastPow = speed;
 	_drive->SetPercentPower(speed * _inverse);
+}
+
+// ================================================================
+
+double SwerveModule::GetSteerPosition() {
+	float currentPosition = _steer->GetEncoderPosition() / EncoderConstants::COUNTS_PER_TURN;
+	int turns = trunc(currentPosition);
+	float currentAngle = currentPosition - turns;
+	return currentAngle *EncoderConstants::FULL_TURN;
 }
 
 // ================================================================
@@ -94,6 +90,12 @@ double SwerveModule::SetSteerDrive(double x, double y, double twist, bool operat
 	//SetDriveSpeed(power);
 */
 	return power;
+}
+
+// ================================================================
+
+void SwerveModule::SetOffset(float offset) {
+	_offset = offset;
 }
 
 // ================================================================
@@ -143,3 +145,5 @@ void SwerveModule::SetSteerSetpoint(float setpoint) {
 	else
 		_inverse = 1;
 }
+
+// ================================================================

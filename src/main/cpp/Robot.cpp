@@ -52,28 +52,27 @@ Roller* Robot::roller = nullptr;
 VisionBridgeSub* Robot::visionBridge = nullptr;
 PowerDistributionPanel* Robot::pdp = nullptr;
 
-
 //======= Motor Definition =======//
 
-MultiController* Robot::driveTrainFrontLeftDrive = nullptr;
-PositionMultiController* Robot::driveTrainFrontLeftSteer = nullptr;
+IMultiController* Robot::driveTrainFrontLeftDrive = nullptr;
+IPositionMultiController* Robot::driveTrainFrontLeftSteer = nullptr;
 
-MultiController* Robot::driveTrainFrontRightDrive = nullptr;
-PositionMultiController* Robot::driveTrainFrontRightSteer = nullptr;
+IMultiController* Robot::driveTrainFrontRightDrive = nullptr;
+IPositionMultiController* Robot::driveTrainFrontRightSteer = nullptr;
 
-MultiController* Robot::driveTrainRearLeftDrive = nullptr;
-PositionMultiController* Robot::driveTrainRearLeftSteer = nullptr;
+IMultiController* Robot::driveTrainRearLeftDrive = nullptr;
+IPositionMultiController* Robot::driveTrainRearLeftSteer = nullptr;
 
-MultiController* Robot::driveTrainRearRightDrive = nullptr;
-PositionMultiController* Robot::driveTrainRearRightSteer = nullptr;
+IMultiController* Robot::driveTrainRearRightDrive = nullptr;
+IPositionMultiController* Robot::driveTrainRearRightSteer = nullptr;
 
-PositionMultiController* Robot::armMotor = nullptr;
-MultiController* Robot::clampMotor = nullptr;
-MultiController* Robot::frontClimberMotor = nullptr;
-MultiController* Robot::rearClimberMotor = nullptr;
-PositionMultiController* Robot::elevatorMotor = nullptr;
-MultiController* Robot::rollerMotor = nullptr;
-MultiController* Robot::testElevator = nullptr;
+IPositionMultiController* Robot::armMotor = nullptr;
+IMultiController* Robot::clampMotor = nullptr;
+IMultiController* Robot::frontClimberMotor = nullptr;
+IMultiController* Robot::rearClimberMotor = nullptr;
+IPositionMultiController* Robot::elevatorMotor = nullptr;
+IMultiController* Robot::rollerMotor = nullptr;
+IMultiController* Robot::testElevator = nullptr;
 
 Servo* Robot::frontServo = nullptr;
 Servo* Robot::rearServo = nullptr;
@@ -83,8 +82,7 @@ AHRS* Robot::navx = nullptr;
 double Robot::xCenterOffset = 0;
 double Robot::yCenterOffset = 0;
 
-
-void Robot::DeviceInitialization(){
+void Robot::DeviceInitialization() {
    //======= Front Left Steer =======//
       driveTrainFrontLeftSteer = new SteerTalonController(FLS);
 
@@ -142,6 +140,7 @@ void Robot::DeviceInitialization(){
    #endif
 
 //======= Subsystem Motor Initialization =======//
+
    armMotor = new PositionSparkController(ARM);
    clampMotor = new TalonController(CLAMP);
    frontClimberMotor = new PositionSparkController(FRONTCLIMBER);
@@ -154,6 +153,7 @@ void Robot::DeviceInitialization(){
    rearServo = new Servo(1);
 
 //======= Sensor and Camera Initialization =======//
+
 #if ONROBORIONAVX
    navx = new AHRS(I2C::Port::kMXP);
 #else
@@ -164,6 +164,7 @@ void Robot::DeviceInitialization(){
 //CameraServer::GetInstance()->StartAutomaticCapture(1);
 
 //======= System Initialization =======//
+
    arm = new Arm();
    clamp = new Clamp();
    climber = new Climber();
@@ -176,7 +177,7 @@ void Robot::DeviceInitialization(){
    oi = new OI();
 }
 
-void Robot::AddHeights(){
+void Robot::AddHeights() {
    auto h = Height::GetInstance();
 
    h->AddCargoTarget(0, 0); // Starting Position with Elevator Down and Arm In
